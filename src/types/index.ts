@@ -16,12 +16,6 @@ export interface LoginResponse {
   };
 }
 
-export interface GoogleSheetsConfig {
-  spreadsheetId: string;
-  range: string;
-  serviceAccountEmail: string;
-  privateKey: string;
-}
 
 export interface ApiError {
   error: string;

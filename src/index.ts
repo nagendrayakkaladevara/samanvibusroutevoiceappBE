@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import { authRoutes } from './routes/auth';
+import { userRoutes } from './routes/users';
+import { initDB } from './services/database';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
 
@@ -12,6 +14,10 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+initDB().catch(err => {
+  logger.error('Failed to initialize database', err);
+  process.exit(1);
+});
 
 // Security middleware
 app.use(helmet());
@@ -55,6 +61,7 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -72,7 +79,7 @@ app.listen(PORT, () => {
   logger.info(`🚀 Server running on port ${PORT}`);
   logger.info(`📱 Health check: http://localhost:${PORT}/health`);
   logger.info(`🔐 Auth endpoint: http://localhost:${PORT}/api/auth/login`);
-  logger.info(`🔐 Verify endpoint: http://localhost:${PORT}/api/auth/verify`);
+  logger.info(`👤 Users endpoint: http://localhost:${PORT}/api/users`);
 });
 
 export default app; 

@@ -14,9 +14,9 @@ export const errorHandler = (
   let message = 'Internal server error';
 
   // Handle specific error types
-  if (error.message.includes('Google Sheets')) {
+  if (error.message.includes('database')) {
     statusCode = 503;
-    message = 'Authentication service temporarily unavailable';
+    message = 'Database temporarily unavailable';
   } else if (error.message.includes('Invalid or expired token')) {
     statusCode = 401;
     message = 'Invalid or expired token';
